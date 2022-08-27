@@ -12,6 +12,7 @@
 
 ```bash
 pip install -r requirements.txt
+
 ```
 
 #### Key Pip Dependencies
