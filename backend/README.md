@@ -109,7 +109,7 @@ The API will return 4 error types when requests fail
 ----
 <br>
 
-> `GET '/categories'`
+ `GET '/categories'`
 
 - Fetches a list of dictionaries of all available categories with key of id and value is the string of the corresponding category
 - Request Arguements: None
@@ -133,7 +133,7 @@ The API will return 4 error types when requests fail
 ---
 <br>
 
-> `GET '/questions?page=${integer}'`
+ `GET '/questions?page=${integer}'`
 
 - Fetches paginated trivia questions, their categories and total number of questions available
 - Request Arguements: `page`-integer
@@ -168,7 +168,7 @@ The API will return 4 error types when requests fail
 ---
 <br>
 
-> `DELETE '/questions/${id}'`
+ `DELETE '/questions/${id}'`
 - Deletes the record of a question based on the id provided if it exists
 - Request Arguements: `id`- integer
 -Returns: JSON object containing `status`,`question_id` and `success`
@@ -184,7 +184,7 @@ The API will return 4 error types when requests fail
 ---
 <br>
 
-> `POST '/questions'`
+ `POST '/questions'`
 - Creates a new Record of a trivia question based on arguements provided from JSON data, all arguements must be provided
 - Request Arguements: JSON object containing 
 ```json
@@ -207,7 +207,7 @@ The API will return 4 error types when requests fail
 ---
 <br>
 
-> `POST '/questions/searchterm'`
+ `POST '/questions/searchterm'`
 
 - Performs a partial search of all quesions based on searchterm provided
 - Request Arguements: a JSON object containing
@@ -238,7 +238,7 @@ The API will return 4 error types when requests fail
 ---
 <br>
 
-> `GET '/categories/${id}/questions'`
+ `GET '/categories/${id}/questions'`
 
 - Fetches all questions with category as the categr0y id provided
 - Request Arguements: `id`- integer 
@@ -263,7 +263,7 @@ The API will return 4 error types when requests fail
 ---
 <br>
 
-> `POST '/quizzes'`
+`POST '/quizzes'`
 - Fetches one random questions that has not been repeated before and based on category provided
 - Request Arguements: Json object containg
 ```json
