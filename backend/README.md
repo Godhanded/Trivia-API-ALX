@@ -189,10 +189,10 @@ The API will return 4 error types when requests fail
 - Request Arguements: JSON object containing 
 ```json
 {
-  question: "your question",
-  answer: "your answer",
-  difficulty: 5,
-  category: 8
+  "question": "your question",
+  "answer": "your answer",
+  "difficulty": 5,
+  "category": 8
 } 
 ```
 *note:* category takes an id-integer and difficulty  an integer always between 1-5
@@ -213,7 +213,7 @@ The API will return 4 error types when requests fail
 - Request Arguements: a JSON object containing
 ```json
 {
-  searchTerm: "your search"
+  "searchTerm": "your search"
 }
 ```
 - Returns: Json object containing array of `questions`,`status`,`success`, `total_questions` and `current_category`
@@ -255,7 +255,7 @@ The API will return 4 error types when requests fail
     }
   ],
   "totalQuestions": 100,
-  "currentCategory": {"3":"History",},
+  "currentCategory": {"3":"History"},
   "status": 200,
   "succes": true
 }
