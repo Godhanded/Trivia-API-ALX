@@ -81,7 +81,8 @@ def create_app(test_config=None):
         items = paginate(request, selection)
         if len(items) == 0:
             abort(404)
-        cat={cat["category"]:Category.query.get(cat['category']).type for cat in items}
+        cat = {cat["category"]: Category.query.get(
+            cat['category']).type for cat in items}
         return jsonify({
             "status": 200,
             "success": True,
@@ -160,13 +161,13 @@ def create_app(test_config=None):
             Question.question.ilike('%'+search_term+'%')).all()
         if questions == []:
             abort(404)
-        items=[question.format() for question in questions]
+        items = [question.format() for question in questions]
         return jsonify({
             "status": 200,
             "success": True,
             "questions": items,
             "total_questions": len(questions),
-            "current_category":{cat["category"]:Category.query.get(cat['category']).type for cat in items}
+            "current_category": {cat["category"]: Category.query.get(cat['category']).type for cat in items}
         })
 
     """
@@ -192,7 +193,7 @@ def create_app(test_config=None):
             "success": True,
             "questions": formated,
             "total_questions": len(formated),
-            "current_category": {format_cat["id"]:format_cat["type"]}
+            "current_category": {format_cat["id"]: format_cat["type"]}
         })
 
     """
@@ -211,10 +212,11 @@ def create_app(test_config=None):
         data = request.get_json()
         prev = data.get("previous_questions")
         quize_category = data.get("quiz_category").get("id")
-        question = Question.query.filter(Question.category == quize_category).all()
-        if question ==[]:
+        question = Question.query.filter(
+            Question.category == quize_category).all()
+        if question == []:
             abort(400)
-        questions=[]
+        questions = []
         for item in question:
             if item.id not in prev:
                 questions.append(item)
