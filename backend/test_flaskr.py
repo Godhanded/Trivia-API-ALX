@@ -61,10 +61,10 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data["message"],"Bad Request")
 
     def test_delete_question_with_id(self):
-        res= self.client().delete("/questions/6")
+        res= self.client().delete("/questions/10")
         data= json.loads(res.data)
         self.assertEqual(data["status"],200)
-        self.assertEqual(data["question_id"],6)
+        self.assertEqual(data["question_id"],10)
         self.assertTrue(data["success"])
 
     def test_404_if_cant_find_delete_item(self):
@@ -75,7 +75,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data["message"],"resource not found")
 
     def test_search_questions(self):
-        res=self.client().post("/questions/searchterm", json={"searchTerm":"title"})
+        res=self.client().post("/questions/searchterm", json={"searchTerm":"mirror"})
         data=json.loads(res.data)
         self.assertEqual(data["status"],200)
         self.assertTrue(data["total_questions"])
@@ -114,14 +114,14 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data["message"],"resource not found")
 
     def test_run_quiz(self):
-        res= self.client().post("/quizzes",json={"previouse_questions":[1,2,3],"quize_category":{"id":3,"type":"title"}})
+        res= self.client().post("/quizzes",json={"previous_questions":[1,2,3],"quiz_category":{"id":3,"type":"title"}})
         data= json.loads(res.data)
         self.assertEqual(data["status"],200)
         self.assertTrue(data["success"])
         self.assertTrue(data["question"])
 
     def test_400_if_run_quize_fails(self):
-        res= self.client().post("/quizzes",json={"previouse_questions":[1000,2000,3000],"quize_category":{"id":3565,"type":"tithvjh jbhvh56576854le"}})
+        res= self.client().post("/quizzes",json={"previous_questions":[1000,2000,3000],"quiz_category":{"id":3565,"type":"tithvjh jbhvh56576854le"}})
         data= json.loads(res.data)
         self.assertEqual(data["status"],400)
         self.assertFalse(data["success"])

@@ -161,7 +161,6 @@ def create_app(test_config=None):
         if questions == []:
             abort(404)
         items=[question.format() for question in questions]
-        print(questions)
         return jsonify({
             "status": 200,
             "success": True,
@@ -188,7 +187,6 @@ def create_app(test_config=None):
         if category is None:
             abort(404)
         format_cat = category.format()
-        print(formated)
         return jsonify({
             "status": 200,
             "success": True,
@@ -215,7 +213,7 @@ def create_app(test_config=None):
         quize_category = data.get("quiz_category").get("id")
         question = Question.query.filter(Question.category == quize_category).all()
         if question ==[]:
-            abort(404)
+            abort(400)
         questions=[]
         for item in question:
             if item.id not in prev:
