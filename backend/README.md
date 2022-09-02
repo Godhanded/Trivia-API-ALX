@@ -303,3 +303,11 @@ createdb trivia_test
 psql trivia_test < trivia.psql
 python test_flaskr.py
 ```
+
+## Authors
+- @Godhanded
+- @udacity/active-public-content
+
+## Acknowledgments
+
+ ALX-T-Udacity
