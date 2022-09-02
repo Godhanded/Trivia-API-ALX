@@ -39,11 +39,11 @@ psql trivia < trivia.psql
 
 ### Run the Server
 
-From within the `./src` directory first ensure you are working using your created virtual environment.
+From within the `./backend` directory first ensure you are working using your created virtual environment.
 
 To run the server, execute:
-
 ```bash
+export FLASK_APP=flaskr
 flask run --reload
 ```
 
@@ -72,24 +72,224 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 
 You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
 
-### Documentation Example
+## **TRIVIA API-ENDPOINT DOCUMENTATION**
+---
+<br>
+<br>
 
-`GET '/api/v1.0/categories'`
+### **Base Uri**
+----
+----
+The project has not been deployed hence we will make use of on our local server or machine
+- **Base Uri:** `localhost:5000` or `localhost:<prefered port>` or `http://127.0.0.1/5000`
+the default port is 5000 and has been set as a proxy in the front-end configuration
+<br>
 
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-- Request Arguments: None
-- Returns: An object with a single key, `categories`, that contains an object of `id: category_string` key: value pairs.
+### **Error Handling**
+----
+----
+Errors are returned as JSON objects in the following format
+
+```python
+{
+  "status": 404,
+  "success": False,
+  "message": "resource not found"
+}
+```
+The API will return 4 error types when requests fail
+- 400: Request unprocessable
+- 404: resource not found"
+- 422: Bad Request
+- 500: Internal server error
+<br>
+
+### **EndPoints**
+----
+----
+<br>
+
+> `GET '/categories'`
+
+- Fetches a list of dictionaries of all available categories with key of id and value is the string of the corresponding category
+- Request Arguements: None
+- Returns json object with keys; `success`, `status`, `categories`. where categories is an object
 
 ```json
 {
-  "1": "Science",
-  "2": "Art",
-  "3": "Geography",
-  "4": "History",
-  "5": "Entertainment",
-  "6": "Sports"
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "success": true,
+  "status": 200
 }
 ```
+
+---
+<br>
+
+> `GET '/questions?page=${integer}'`
+
+- Fetches paginated trivia questions, their categories and total number of questions available
+- Request Arguements: `page`-integer
+- Returns: a JSON object containing 10 `questions` per page, `total_questions`, all `categories` and `current_category`
+
+```json
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "This is a question",
+      "answer": "This is an answer",
+      "difficulty": 5,
+      "category": 2
+    },
+  ],
+  "total_questions": 100,
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "current_category": {"2":"Art"},
+  "status": 200,
+  "successs": true
+}
+```
+
+---
+<br>
+
+> `DELETE '/questions/${id}'`
+- Deletes the record of a question based on the id provided if it exists
+- Request Arguements: `id`- integer
+-Returns: JSON object containing `status`,`question_id` and `success`
+
+```json
+{
+  "status": "success",
+  "question_id": 5,
+  "success": true
+}
+```
+
+---
+<br>
+
+> `POST '/questions'`
+- Creates a new Record of a trivia question based on arguements provided from JSON data, all arguements must be provided
+- Request Arguements: JSON object containing 
+```json
+{
+  question: "your question",
+  answer: "your answer",
+  difficulty: 5,
+  category: 8
+} 
+```
+*note:* category takes an id-integer and difficulty  an integer always between 1-5
+- Returns: `status` and `success`
+```json
+{
+  "status": 200,
+  "success": true
+}
+```
+
+---
+<br>
+
+> `POST '/questions/searchterm'`
+
+- Performs a partial search of all quesions based on searchterm provided
+- Request Arguements: a JSON object containing
+```json
+{
+  searchTerm: "your search"
+}
+```
+- Returns: Json object containing array of `questions`,`status`,`success`, `total_questions` and `current_category`
+```json
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "This is a question",
+      "answer": "This is an answer",
+      "difficulty": 5,
+      "category": 5
+    }
+  ],
+  "total_questions": 100,
+  "current_category": {"7":"Entertainment"},
+  "status": 200,
+  "success": true
+}
+```
+
+---
+<br>
+
+> `GET '/categories/${id}/questions'`
+
+- Fetches all questions with category as the categr0y id provided
+- Request Arguements: `id`- integer 
+- Returns: `success`, `status`, array of `questions`, `total_questions`, `current_category` object
+```json
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "This is a question",
+      "answer": "This is an answer",
+      "difficulty": 5,
+      "category": 4
+    }
+  ],
+  "totalQuestions": 100,
+  "currentCategory": {"3":"History",},
+  "status": 200,
+  "succes": true
+}
+```
+---
+<br>
+
+> `POST '/quizzes'`
+- Fetches one random questions that has not been repeated before and based on category provided
+- Request Arguements: Json object containg
+```json
+{
+  "previous_questions": [1,3,5],
+  "quize_category": "current category id"
+}
+```
+- Returns: one `question` object, `status`and `success`
+```json
+{
+  "question": {
+    "id": 1,
+    "question": "This is a question",
+    "answer": "This is an answer",
+    "difficulty": 5,
+    "category": 4
+  },
+  "status": 200,
+  "success": true
+}
+```
+---
+<br>
+<br>
+
 
 ## Testing
 
