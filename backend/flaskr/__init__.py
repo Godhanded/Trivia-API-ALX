@@ -81,16 +81,14 @@ def create_app(test_config=None):
         items = paginate(request, selection)
         if len(items) == 0:
             abort(404)
-        res = dict()
-        # new_items=[item.get["question"] for item in items]
-        # print (new_items)
+        cat={cat["category"]:Category.query.get(cat['category']).type for cat in items}
         return jsonify({
             "status": 200,
             "success": True,
             "total_questions": len(selection),
             "questions": items,
             "categories": {cat.id: cat.type for cat in category},
-            "current_category": None,
+            "current_category": cat,
         })
 
     """
@@ -162,13 +160,14 @@ def create_app(test_config=None):
             Question.question.ilike('%'+search_term+'%')).all()
         if questions == []:
             abort(404)
+        items=[question.format() for question in questions]
         print(questions)
         return jsonify({
             "status": 200,
             "success": True,
-            "questions": [question.format() for question in questions],
+            "questions": items,
             "total_questions": len(questions),
-            "current_category": None
+            "current_category":{cat["category"]:Category.query.get(cat['category']).type for cat in items}
         })
 
     """
@@ -195,7 +194,7 @@ def create_app(test_config=None):
             "success": True,
             "questions": formated,
             "total_questions": len(formated),
-            "current_category": format_cat
+            "current_category": {format_cat["id"]:format_cat["type"]}
         })
 
     """
@@ -212,20 +211,20 @@ def create_app(test_config=None):
     @app.route("/quizzes", methods=["POST"])
     def run_quiz():
         data = request.get_json()
-        prev = data.get("previouse_questions")
-        quize_category = data.get("quize_category").get("id")
-        # question=Question.query.filter(Question.id.not_in(prev)).join(Category).filter(Category.type.ilike(quize_category)).first()
-        categories = Category.query.filter_by(id=quize_category).first()
-        if categories is None:
-            abort(400)
-        print(categories)
-        question = Question.query.filter(Question.id.not_in(prev)).filter(
-            Question.category == categories.id).first()
+        prev = data.get("previous_questions")
+        quize_category = data.get("quiz_category").get("id")
+        question = Question.query.filter(Question.category == quize_category).all()
+        if question ==[]:
+            abort(404)
+        questions=[]
+        for item in question:
+            if item.id not in prev:
+                questions.append(item)
 
         return jsonify({
             "status": 200,
             "success": True,
-            "question": question.format(),
+            "question": random.choice(questions).format(),
         })
 
     """
