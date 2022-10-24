@@ -240,7 +240,7 @@ def create_app(test_config=None):
             "message": "resource not found"
         })
 
-    @app.errorhandler(400)
+    @app.errorhandler(422)
     def cant_process(error):
         return jsonify({
             "status": 400,
@@ -248,7 +248,7 @@ def create_app(test_config=None):
             "message": "Request unprocessable"
         })
 
-    @app.errorhandler(422)
+    @app.errorhandler(400)
     def bad_request(error):
         return jsonify({
             "status": 422,
